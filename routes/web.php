@@ -20,3 +20,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
 });
+
+$router->post('auth/register', ['uses' => 'AuthController@register']);
+$router->post('auth/login', ['uses' => 'AuthController@login']);
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->get('/profile', function () {
+        return response()->json(auth()->user());
+    });
+});
