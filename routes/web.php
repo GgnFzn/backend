@@ -31,16 +31,25 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     });
 });
 
-$app->group(['prefix' => 'api', 'middleware' => ['auth', 'check.location']], function ($app) {
-    $app->post('clock-in', 'AttendanceController@clockIn');
-    $app->post('clock-out', 'AttendanceController@clockOut');
-    // tambahkan routes lainnya
+$router->post('register', 'AuthController@register');
+$router->post('login', 'AuthController@login');
+$router->get('user', ['middleware' => 'auth', 'uses' => 'AuthController@getUser']);
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->post('presensi', 'PresensiController@store');
+    $router->get('presensi', 'PresensiController@index');
 });
 
-$app->group(['prefix' => 'api', 'middleware' => 'auth'], function ($router) {
-    $router->post('clock-in', 'AttendanceController@clockIn')->middleware('check.location');
-    $router->post('clock-out', 'AttendanceController@clockOut')->middleware('check.location');
-});
+// $router->group(['prefix' => 'api', 'middleware' => ['auth', 'check.location']], function ($app) {
+//     $app->post('clock-in', 'AttendanceController@clockIn');
+//     $app->post('clock-out', 'AttendanceController@clockOut');
+//     // tambahkan routes lainnya
+// });
+
+// $router->group(['prefix' => 'api', 'middleware' => 'auth'], function ($router) {
+//     $router->post('clock-in', 'AttendanceController@clockIn')->middleware('check.location');
+//     $router->post('clock-out', 'AttendanceController@clockOut')->middleware('check.location');
+// });
 
 // $router->group(['prefix' => 'api'], function () use ($router) {
 //     $router->post('register', 'AuthController@register');

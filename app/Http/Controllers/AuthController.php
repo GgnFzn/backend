@@ -61,4 +61,9 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Password berhasil diubah'], 200);
     }
+
+    public function getUser()
+    {
+        return response()->json(auth()->user());
+    }
 }
