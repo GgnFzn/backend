@@ -12,9 +12,9 @@ class CheckLocationPermission
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
 
-        // Lokasi yang diizinkan (contoh koordinat Jakarta)
-        $allowedLatitude = -6.2088;
-        $allowedLongitude = 106.8456;
+        // Lokasi yang diizinkan 
+        $allowedLatitude = -7.3290305;
+        $allowedLongitude = 108.2157803;
 
         // Jarak toleransi dalam meter
         $distanceTolerance = 100; // Misalnya 100 meter

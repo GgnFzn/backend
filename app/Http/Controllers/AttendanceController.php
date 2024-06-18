@@ -30,6 +30,28 @@ class AttendanceController extends Controller
 
     public function clockOut(Request $request)
     {
-        // Implementasi absen keluar jika diperlukan
+        $this->validate($request, [
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        // Cari absensi terakhir yang belum memiliki absen keluar
+        $attendance = Attendance::where('user_id', Auth::id())
+                                ->whereNull('clock_out')
+                                ->latest()
+                                ->first();
+
+        if (!$attendance) {
+            return response()->json(['error' => 'No active attendance record found'], 404);
+        }
+
+        // Verifikasi lokasi menggunakan middleware
+        // Jika sudah lolos middleware, berarti lokasi valid
+        $attendance->latitude_out = $request->latitude;
+        $attendance->longitude_out = $request->longitude;
+        $attendance->clock_out = now(); // Timestamp saat absen keluar
+        $attendance->save();
+
+        return response()->json(['message' => 'Clock out recorded', 'data' => $attendance], 200);
     }
 }
