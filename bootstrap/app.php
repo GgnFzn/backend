@@ -85,7 +85,9 @@ $app->routeMiddleware([
     'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class
 ]);
 
-
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +106,8 @@ $app->routeMiddleware([
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 class_alias(Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
 class_alias(Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+
+
 
 
 /*

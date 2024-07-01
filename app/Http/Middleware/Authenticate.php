@@ -3,21 +3,17 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Authenticate
 {
-    protected $auth;
-
-    public function __construct(Auth $auth)
+    public function handle($request, Closure $next, $guard = null)
     {
-        $this->auth = $auth;
-    }
-
-    public function handle($request, Closure $next, ...$guards)
-    {
-        if ($this->auth->guard()->guest()) {
-            return response('Unauthorized.', 401);
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Token is invalid'], 401);
         }
 
         return $next($request);
