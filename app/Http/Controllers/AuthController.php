@@ -41,4 +41,24 @@ class AuthController extends Controller
 
         return response()->json(compact('token'));
     }
+
+    public function resetPassword(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required|string',
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:6',
+        ]);
+
+        $user = User::where('username', $request->username)->first();
+
+        if (!$user || !Hash::check($request->old_password, $user->password)) {
+            return response()->json(['error' => 'Username atau password lama tidak valid'], 400);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password berhasil diubah'], 200);
+    }
 }
