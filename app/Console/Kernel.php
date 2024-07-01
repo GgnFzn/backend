@@ -16,6 +16,17 @@ class Kernel extends ConsoleKernel
         //
     ];
 
+    // protected $routeMiddleware = [
+    //     // ...
+    //     'check.location' => \App\Http\Middleware\CheckLocationPermission::class,
+    // ];
+    
+    protected $routeMiddleware = [
+        // ...
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'check.location' => \App\Http\Middleware\CheckLocationPermission::class,
+    ];
+    
     /**
      * Define the application's command schedule.
      *
