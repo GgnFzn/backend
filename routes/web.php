@@ -21,6 +21,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('login', 'AuthController@login');
 });
 
+feat-login
 $router->post('auth/register', ['uses' => 'AuthController@register']);
 $router->post('auth/login', ['uses' => 'AuthController@login']);
 $router->post('/reset-password', ['uses' => 'AuthController@resetPassword']);
@@ -29,6 +30,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('/profile', function () {
         return response()->json(auth()->user());
     });
+lupa-password
 });
 
 // $router->group(['prefix' => 'api'], function () use ($router) {
@@ -57,3 +59,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 // });
 
 
+
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('barangs', ['uses' => 'BarangController@index']);
+    $router->get('barangs/{id}', ['uses' => 'BarangController@show']);
+    $router->post('barangs', ['uses' => 'BarangController@store', 'middleware' => 'jwt.auth']);
+    $router->put('barangs/{id}', ['uses' => 'BarangController@update', 'middleware' => 'jwt.auth']);
+    $router->delete('barangs/{id}', ['uses' => 'BarangController@destroy', 'middleware' => 'jwt.auth']);
+dev
+});
+dev
